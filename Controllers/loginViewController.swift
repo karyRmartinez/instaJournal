@@ -30,7 +30,7 @@ class loginViewController: UIViewController {
         textField .placeholder = "Email"
         textField .borderStyle = .roundedRect
         textField .backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-//      textField.addTarget(self, action: #selector(validateFields), for: .editingChanged)
+      textField.addTarget(self, action: #selector(validateFields), for: .editingChanged)
         return textField
         //
     }()
@@ -133,6 +133,89 @@ class loginViewController: UIViewController {
      }
      
 
+ 
+      
+      //MARK: Obj-C methods
+      
+      @objc func validateFields() {
+          guard EmailTextField.hasText, passwordTextField.hasText else {
+              LogInButton.backgroundColor = UIColor(red: 255/255, green: 67/255, blue: 0/255, alpha: 0.5)
+              LogInButton.isEnabled = false
+              return
+          }
+          LogInButton.isEnabled = true
+          LogInButton.backgroundColor = UIColor(red: 255/255, green: 67/255, blue: 0/255, alpha: 1)
+      }
+      
+    
+    private func showAlert(with title: String, and message: String) {
+         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+         present(alertVC, animated: true, completion: nil)
+     }
+    
+    
+    
+    private func handleLoginResponse(with result: Result<(), Error>) {
+           switch result {
+           case .failure(let error):
+               showAlert(with: "Error", and: "Could not log in. Error: \(error)")
+           case .success:
+               
+               guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let sceneDelegate = windowScene.delegate as? SceneDelegate, let window = sceneDelegate.window
+                   else {
+                       //MARK: TODO - handle could not swap root view controller
+                       return
+               }
+               
+               //MARK: TODO - refactor this logic into scene delegate
+               UIView.transition(with: window, duration: 0.3, options: .transitionFlipFromBottom, animations: {
+                   if FirebaseAuthService.manager.currentUser?.photoURL != nil {
+                       window.rootViewController = ProfileViewController()
+                   } else {
+                       window.rootViewController = {
+                           let profileSetupVC = ProfileViewController()
+                           profileSetupVC.settingFromLogin = true
+                           return profileSetupVC
+                       }()
+                   }
+               }, completion: nil)
+           }
+       }
+    
+    
+ 
+    
+    
+      
+      @objc func tryLogin() {
+          guard let email = EmailTextField.text, let password = passwordTextField.text else {
+              showAlert(with: "Error", and: "Please fill out all fields.")
+              return
+          }
+          
+          //MARK: TODO - remove whitespace (if any) from email/password
+          
+          guard email.isValidEmail else {
+              showAlert(with: "Error", and: "Please enter a valid email")
+              return
+          }
+          
+          guard password.isValidPassword else {
+              showAlert(with: "Error", and: "Please enter a valid password. Passwords must have at least 8 characters.")
+              return
+          }
+          
+          FirebaseAuthService.manager.loginUser(email: email.lowercased(), password: password) { (result) in
+              self.handleLoginResponse(with: result)
+          }
+      }
+      
+    
+    
+    
+    
     //MARK: AddSubViews
     
     private func  addSubView() {
