@@ -86,6 +86,8 @@
 		6B8F51D923884D1200FF0FAD = {
 			isa = PBXGroup;
 			children = (
+				6B8F520C238C287700FF0FAD /* fireBase */,
+				6B8F520B238C285600FF0FAD /* Controllers */,
 				6B8F51E423884D1200FF0FAD /* PursuitInstagramFireBase */,
 				6B8F51FB23884D1300FF0FAD /* PursuitInstagramFireBaseTests */,
 				6B8F51E323884D1200FF0FAD /* Products */,
@@ -108,8 +110,6 @@
 			children = (
 				6B8F51E523884D1200FF0FAD /* AppDelegate.swift */,
 				6B8F51E723884D1200FF0FAD /* SceneDelegate.swift */,
-				6B8F51E923884D1200FF0FAD /* loginViewController.swift */,
-				6B8F52092388813300FF0FAD /* PicsViewController.swift */,
 				6B8F51EB23884D1200FF0FAD /* Main.storyboard */,
 				6B8F52072388518100FF0FAD /* GoogleService-Info.plist */,
 				6B8F51EE23884D1300FF0FAD /* Assets.xcassets */,
@@ -126,6 +126,22 @@
 				6B8F51FE23884D1300FF0FAD /* Info.plist */,
 			);
 			path = PursuitInstagramFireBaseTests;
+			sourceTree = "<group>";
+		};
+		6B8F520B238C285600FF0FAD /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6B8F51E923884D1200FF0FAD /* loginViewController.swift */,
+				6B8F52092388813300FF0FAD /* PicsViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		6B8F520C238C287700FF0FAD /* fireBase */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = fireBase;
 			sourceTree = "<group>";
 		};
 		C966BA30F84AEF5F460DC86D /* Frameworks */ = {

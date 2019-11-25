@@ -45,6 +45,25 @@ class loginViewController: UIViewController {
     }()
     
     
+    lazy var LogInButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = #colorLiteral(red: 0.5880904794, green: 0.3762845993, blue: 1, alpha: 0.6412760417)
+        button.frame = CGRect(x: 150, y: 100, width: 30, height: 50)
+        button.layer.cornerRadius = 0.5 * button.bounds.size.width
+        return button
+    }()
+    
+    lazy var SignUPButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = #colorLiteral(red: 0.5880904794, green: 0.3762845993, blue: 1, alpha: 0.6412760417)
+        button.frame = CGRect(x: 150, y: 100, width: 30, height: 50)
+        button.layer.cornerRadius = 0.5 * button.bounds.size.width
+        return button
+        
+        
+    }()
          
       //MARK:   CONSTRAINTS
         private func setEmailTextFieldConstraints() {
@@ -67,8 +86,25 @@ class loginViewController: UIViewController {
     }
     
     
+    private func setLogInButton() {
+        NSLayoutConstraint.activate([
+            LogInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            LogInButton.centerYAnchor.constraint(equalTo: view.centerYAnchor,constant: 90),
+            LogInButton.widthAnchor.constraint(equalToConstant: 90),
+            LogInButton.heightAnchor.constraint(equalToConstant: 30)
+            
+            
+        ])
+    }
     
-    
+    private func setSignUp() {
+        NSLayoutConstraint.activate ([
+            SignUPButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            SignUPButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 200),
+            SignUPButton.widthAnchor.constraint(equalToConstant: 110),
+            SignUPButton.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
     
     
     
@@ -88,6 +124,8 @@ class loginViewController: UIViewController {
         self.view.addSubview(BrandLabel)
         self.view.addSubview(EmailTextField)
         self.view.addSubview(passwordTextField)
+        self.view.addSubview(LogInButton)
+        self.view.addSubview(SignUPButton)
 
     
     }
@@ -100,6 +138,8 @@ class loginViewController: UIViewController {
         setBrandLabel()
        setEmailTextFieldConstraints()
         setPassWordTextFieldConstraints()
+        setLogInButton()
+        setSignUp()
         
         
     }
