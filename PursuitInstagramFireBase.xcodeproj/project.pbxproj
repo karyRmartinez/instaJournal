@@ -102,6 +102,7 @@
 		6B8F51D923884D1200FF0FAD = {
 			isa = PBXGroup;
 			children = (
+				6B96396B238C683E000AFE44 /* Extensions */,
 				6B963969238C6627000AFE44 /* Extensions.swift */,
 				6B963964238C63C1000AFE44 /* Models */,
 				6B8F520C238C287700FF0FAD /* FireBase */,
@@ -174,6 +175,13 @@
 				6B963965238C63E5000AFE44 /* Users.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		6B96396B238C683E000AFE44 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		C966BA30F84AEF5F460DC86D /* Frameworks */ = {

@@ -30,7 +30,7 @@ class loginViewController: UIViewController {
         textField .placeholder = "Email"
         textField .borderStyle = .roundedRect
         textField .backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-                //          textField.addTarget(self, action: #selector(validateFields), for: .editingChanged)
+//      textField.addTarget(self, action: #selector(validateFields), for: .editingChanged)
         return textField
         //
     }()
@@ -49,8 +49,10 @@ class loginViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = #colorLiteral(red: 0.5880904794, green: 0.3762845993, blue: 1, alpha: 0.6412760417)
-        button.frame = CGRect(x: 150, y: 100, width: 30, height: 50)
+        button.frame = CGRect(x: 150, y: 100, width: 20, height: 50)
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
+        button.setTitle("Loggin", for: .normal)
+
         return button
     }()
     
@@ -58,8 +60,10 @@ class loginViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = #colorLiteral(red: 0.5880904794, green: 0.3762845993, blue: 1, alpha: 0.6412760417)
-        button.frame = CGRect(x: 150, y: 100, width: 30, height: 50)
+        button.frame = CGRect(x: 150, y: 100, width: 20, height: 50)
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
+        button.setTitle("Sign up", for: .normal)
+
         button.addTarget(self, action: #selector(showSignUp), for: .touchUpInside)
         
         

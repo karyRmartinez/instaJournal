@@ -28,7 +28,7 @@ class SignUpViewController: UIViewController {
         textField.backgroundColor = .white
         textField.borderStyle = .roundedRect
         textField.autocorrectionType = .no
-        //        textField.addTarget(self, action: #selector(validateFields), for: .editingChanged)
+                textField.addTarget(self, action: #selector(validateFields), for: .editingChanged)
         return textField
     }()
     
@@ -40,7 +40,7 @@ class SignUpViewController: UIViewController {
         textField.borderStyle = .roundedRect
         textField.autocorrectionType = .no
         textField.isSecureTextEntry = true
-        //        textField.addTarget(self, action: #selector(validateFields), for: .editingChanged)
+                textField.addTarget(self, action: #selector(validateFields), for: .editingChanged)
         return textField
     }()
     
@@ -52,10 +52,12 @@ class SignUpViewController: UIViewController {
         button.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 0.5)
         button.frame = CGRect(x: 150, y: 100, width: 30, height: 50)
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
-        //        button.addTarget(self, action: #selector(trySignUp), for: .touchUpInside)
+        
+                button.addTarget(self, action: #selector(trySignUp), for: .touchUpInside)
         button.isEnabled = false
         return button
     }()
+    
     
     //MARK: Lifecycle methods
     
@@ -126,7 +128,7 @@ class SignUpViewController: UIViewController {
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                 let sceneDelegate = windowScene.delegate as? SceneDelegate, let window = sceneDelegate.window
                 else {
-                    //MARK: TODO - handle could not swap root view controller
+                    
                     return
             }
 
@@ -137,7 +139,7 @@ class SignUpViewController: UIViewController {
                             } else {
                                 window.rootViewController = {
                                     let profileSetupVC = ProfileViewController()
-//                                    profileSetupVC.settingFromLogin = true
+                                    profileSetupVC.settingFromLogin = true
                                     return profileSetupVC
                                 }()
                             }
