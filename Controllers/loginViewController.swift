@@ -14,7 +14,7 @@ class loginViewController: UIViewController {
     
     lazy var BrandLabel: UILabel = {
          let label = UILabel()
-         label.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+         label.textColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
          label.text = "Pursuitstagram"
          label.font = UIFont(name: "Optima-BOld", size: 25)
          label.backgroundColor = .white
@@ -60,11 +60,22 @@ class loginViewController: UIViewController {
         button.backgroundColor = #colorLiteral(red: 0.5880904794, green: 0.3762845993, blue: 1, alpha: 0.6412760417)
         button.frame = CGRect(x: 150, y: 100, width: 30, height: 50)
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
+        button.addTarget(self, action: #selector(showSignUp), for: .touchUpInside)
+        
+        
         return button
         
         
     }()
-         
+     
+    @objc func showSignUp() {
+        let signupVC = SignUpViewController()
+        signupVC.modalPresentationStyle = .formSheet
+        present(signupVC, animated: true, completion: nil)
+    }
+    
+    
+    
       //MARK:   CONSTRAINTS
         private func setEmailTextFieldConstraints() {
              NSLayoutConstraint.activate([
@@ -147,3 +158,4 @@ class loginViewController: UIViewController {
 
 }
 
+  

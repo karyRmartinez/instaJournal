@@ -17,7 +17,7 @@
 		6B8F51F223884D1300FF0FAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B8F51F023884D1300FF0FAD /* LaunchScreen.storyboard */; };
 		6B8F51FD23884D1300FF0FAD /* PursuitInstagramFireBaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8F51FC23884D1300FF0FAD /* PursuitInstagramFireBaseTests.swift */; };
 		6B8F52082388518100FF0FAD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B8F52072388518100FF0FAD /* GoogleService-Info.plist */; };
-		6B8F520A2388813300FF0FAD /* PicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8F52092388813300FF0FAD /* PicsViewController.swift */; };
+		6B8F520A2388813300FF0FAD /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8F52092388813300FF0FAD /* SignUpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +47,7 @@
 		6B8F51FC23884D1300FF0FAD /* PursuitInstagramFireBaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PursuitInstagramFireBaseTests.swift; sourceTree = "<group>"; };
 		6B8F51FE23884D1300FF0FAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B8F52072388518100FF0FAD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		6B8F52092388813300FF0FAD /* PicsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicsViewController.swift; sourceTree = "<group>"; };
+		6B8F52092388813300FF0FAD /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		871B4618E1B47EB46316728E /* Pods-PursuitInstagramFireBase.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PursuitInstagramFireBase.debug.xcconfig"; path = "Target Support Files/Pods-PursuitInstagramFireBase/Pods-PursuitInstagramFireBase.debug.xcconfig"; sourceTree = "<group>"; };
 		C068F4E6D6B048ECEC44525D /* Pods_PursuitInstagramFireBaseTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PursuitInstagramFireBaseTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -132,7 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				6B8F51E923884D1200FF0FAD /* loginViewController.swift */,
-				6B8F52092388813300FF0FAD /* PicsViewController.swift */,
+				6B8F52092388813300FF0FAD /* SignUpViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -323,7 +323,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B8F51EA23884D1200FF0FAD /* loginViewController.swift in Sources */,
-				6B8F520A2388813300FF0FAD /* PicsViewController.swift in Sources */,
+				6B8F520A2388813300FF0FAD /* SignUpViewController.swift in Sources */,
 				6B8F51E623884D1200FF0FAD /* AppDelegate.swift in Sources */,
 				6B8F51E823884D1200FF0FAD /* SceneDelegate.swift in Sources */,
 			);
