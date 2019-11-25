@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import Firebase
 
 class SignUpViewController: UIViewController {
     lazy var headerLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.text = "Create Account"
-        label.font = UIFont(name: "Verdana-Bold", size: 20)
+label.font = UIFont(name: "Optima-BOld", size: 25)
         label.textColor = .white
         label.backgroundColor = .clear
         label.textAlignment = .center
