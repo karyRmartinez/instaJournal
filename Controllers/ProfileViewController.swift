@@ -10,8 +10,32 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
+    lazy var profileLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .white
+        label.textColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
+        label.text = "Profile"
+        return label
+    }()
+
+    private func setupHeaderLabel() {
+           view.addSubview(profileLabel)
+           
+        profileLabel.translatesAutoresizingMaskIntoConstraints = false
+           NSLayoutConstraint.activate([
+               profileLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 30),
+             profileLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+           profileLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+               profileLabel.heightAnchor.constraint(lessThanOrEqualTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.08)])
+       }
+       
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupHeaderLabel()
 
         // Do any additional setup after loading the view.
     }

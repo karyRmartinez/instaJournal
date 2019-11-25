@@ -8,6 +8,8 @@ target 'PursuitInstagramFireBase' do
   # Pods for PursuitInstagramFireBase
 pod 'Firebase/Auth'
 pod 'Firebase/Firestore'
+pod 'Firebase/Storage'
+
 
 
   target 'PursuitInstagramFireBaseTests' do
