@@ -135,7 +135,7 @@ class SignUpViewController: UIViewController {
                         //MARK: TODO - refactor this logic into scene delegate
                         UIView.transition(with: window, duration: 0.3, options: .transitionFlipFromBottom, animations: {
                             if FirebaseAuthService.manager.currentUser?.photoURL != nil {
-                                window.rootViewController = ProfileViewController()
+                                window.rootViewController = loginViewController()
                             } else {
                                 window.rootViewController = {
                                     let profileSetupVC = ProfileViewController()
@@ -175,4 +175,9 @@ class SignUpViewController: UIViewController {
                     stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
                     stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)])
             }
+}
+
+//MARK: --TextField Delegate
+extension SignUpViewController: UITextFieldDelegate {
+    
 }

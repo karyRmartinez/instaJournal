@@ -40,6 +40,7 @@ class loginViewController: UIViewController {
         textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield .placeholder = "Password"
         textfield .borderStyle = .roundedRect
+         textfield.addTarget(self, action: #selector(validateFields), for: .editingChanged)
         textfield .backgroundColor = .white
         return textfield
     }()
@@ -52,6 +53,7 @@ class loginViewController: UIViewController {
         button.frame = CGRect(x: 150, y: 100, width: 20, height: 50)
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
         button.setTitle("Loggin", for: .normal)
+          button.addTarget(self, action: #selector(tryLogin), for: .touchUpInside)
 
         return button
     }()
@@ -132,8 +134,18 @@ class loginViewController: UIViewController {
          ])
      }
      
-
- 
+    
+//    @objc private func navigateScreen() {
+//           self.navigationController?.pushViewController(ProfileViewController(), animated: true)
+//       }
+//
+    
+//
+// @objc func continueButtonPressed(){
+//        self.navigationController?.pushViewController(ProfileViewController(), animated: true)
+//       //TODO: transition to a controller where you can create ToDos
+//   }
+//  
       
       //MARK: Obj-C methods
       
@@ -212,8 +224,7 @@ class loginViewController: UIViewController {
           }
       }
       
-    
-    
+ 
     
     
     //MARK: AddSubViews
@@ -224,6 +235,7 @@ class loginViewController: UIViewController {
         self.view.addSubview(passwordTextField)
         self.view.addSubview(LogInButton)
         self.view.addSubview(SignUPButton)
+        
 
     
     }
@@ -238,11 +250,19 @@ class loginViewController: UIViewController {
         setPassWordTextFieldConstraints()
         setLogInButton()
         setSignUp()
+       
         
+//
+//          navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: self, action: #selector(continueButtonPressed))
+//
         
     }
 
 
 }
 
+//MARK: --TextField Delegate
+extension loginViewController: UITextFieldDelegate {
+    
+}
   
