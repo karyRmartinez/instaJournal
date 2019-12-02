@@ -13,14 +13,14 @@ class FeedViewController: UIViewController {
 
   
     lazy var collectionView: UICollectionView = {
-        let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(cv)
-        cv.register(FeedCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        let collectionV = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionV.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(collectionV)
+        collectionV.register(FeedCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
 //        cv.dataSource = self
 //        cv.delegate = self
-        cv.backgroundColor = .white
-        return cv
+        collectionV.backgroundColor = .white
+        return collectionV
     }()
     
     

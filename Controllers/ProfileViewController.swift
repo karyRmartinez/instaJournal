@@ -55,13 +55,28 @@ class ProfileViewController: UIViewController {
     lazy var addImageButton: UIButton = {
         let button = UIButton()
         button.setTitle("Add Image", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.purple, for: .normal)
         button.titleLabel?.font = UIFont(name: "Verdana-Bold", size: 14)
-        button.backgroundColor = .purple
+        button.backgroundColor = .white
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(addImagePressed), for: .touchUpInside)
         return button
     }()
+    
+    
+    
+    lazy var saveButton: UIButton = {
+          let button = UIButton()
+          button.setTitle("Save", for: .normal)
+        button.setTitleColor(.purple, for: .normal)
+          button.titleLabel?.font = UIFont(name: "Verdana-Bold", size: 14)
+        button.backgroundColor = .white
+//          button.addTarget(self, action: #selector(savePressed), for: .touchUpInside)
+          return button
+      }()
+    
+
+    
     
     
     @objc private func addImagePressed() {
@@ -99,12 +114,23 @@ class ProfileViewController: UIViewController {
      }
 
     
+        @objc private func navigateScreen() {
+               self.navigationController?.pushViewController(FeedViewController(), animated: true)
+           }
     
+        
+    
+     @objc func continueButtonPressed(){
+            self.navigationController?.pushViewController(FeedViewController(), animated: true)
+           //TODO: transition to a controller where you can create ToDos
+       }
+      
     
     
     private func setupHeaderLabel() {
            view.addSubview(profileLabel)
         view.addSubview(userNameTextField)
+        view.addSubview(saveButton)
         
            
         profileLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -137,6 +163,17 @@ class ProfileViewController: UIViewController {
         ])
     }
     
+    private func SaveButtonconstrains() {
+        view.addSubview(saveButton)
+        
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+        saveButton.topAnchor.constraint(equalTo: userNameTextField.bottomAnchor, constant: 600),
+                saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                 saveButton.heightAnchor.constraint(equalToConstant: 50),
+                 saveButton.widthAnchor.constraint(equalToConstant: view.bounds.width / 3)
+             ])
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -144,6 +181,10 @@ class ProfileViewController: UIViewController {
         setupHeaderLabel()
         setImageConstraints()
         setupAddImageButton()
+        SaveButtonconstrains()
+        
+         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "feed", style: .plain, target: self, action: #selector(continueButtonPressed))
+        
 
     }
 
