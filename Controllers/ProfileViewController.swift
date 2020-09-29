@@ -7,15 +7,18 @@
 //
 
 import UIKit
-import Photos
+import AVFoundation
+import FirebaseAuth
 
 class ProfileViewController: UIViewController {
     
-    var settingFromLogin = false
+    var displayNameHolder = "Display Name"
+   var defaultImage = UIImage(systemName: "person")
+      var settingFromLogin = false
 
-    var image = UIImage() {
+    var imageSaved = UIImage() {
          didSet {
-             self.profileImage.image = image
+             profileImage.image = imageSaved
          }
      }
     var imageURL: URL? = nil
@@ -32,13 +35,12 @@ class ProfileViewController: UIViewController {
         return label
     }()
     
-  var profileImage: UIImageView = {
-      let image = UIImageView()
-  image.image = UIImage(systemName: "name")
-      image.contentMode = .scaleAspectFill
-    
-      return image
-  }()
+    var profileImage: UIImageView = {
+        let imageView = UIImageView()
+        //imageView.image = defaultImage 
+        imageView.layer.cornerRadius = 30
+        return imageView
+    }()
     
     lazy var userNameTextField: UITextField = {
          let textField = UITextField()
@@ -50,7 +52,14 @@ class ProfileViewController: UIViewController {
          textField.autocorrectionType = .no
          return textField
      }()
-    
+    lazy var userNameLabel : UILabel = {
+          let label = UILabel()
+        label.textColor = .purple
+          label.text = displayNameHolder
+          label.font = UIFont(name: "Arial", size: 25.0)
+          label.textAlignment = .center
+          return label
+      }()
     
     lazy var addImageButton: UIButton = {
         let button = UIButton()
@@ -59,7 +68,7 @@ class ProfileViewController: UIViewController {
         button.titleLabel?.font = UIFont(name: "Verdana-Bold", size: 14)
         button.backgroundColor = .white
         button.layer.cornerRadius = 5
-        button.addTarget(self, action: #selector(addImagePressed), for: .touchUpInside)
+     //   button.addTarget(self, action: #selector(loadImage), for: .touchUpInside)
         return button
     }()
     
@@ -75,48 +84,121 @@ class ProfileViewController: UIViewController {
           return button
       }()
     
-
-    
-    
-    
-    @objc private func addImagePressed() {
-        //MARK: TODO - action sheet with multiple media options
-        switch PHPhotoLibrary.authorizationStatus() {
-        case .notDetermined, .denied, .restricted:
-            PHPhotoLibrary.requestAuthorization({[weak self] status in
-                switch status {
-                case .authorized:
-                    self?.presentPhotoPickerController()
-                case .denied:
-                    //MARK: TODO - set up more intuitive UI interaction
-                    print("Denied photo library permissions")
-                default:
-                    //MARK: TODO - set up more intuitive UI interaction
-                    print("No usable status")
-                }
-            })
-        default:
-            presentPhotoPickerController()
+    lazy var editDisplayNameButton: UIButton = {
+           let button = UIButton()
+           button.setTitle("Edit Username", for: .normal)
+           button.setTitleColor(.blue, for: .normal)
+           button.addTarget(self, action: #selector(editDisplayNamePressed), for: .touchUpInside)
+           return button
+       }()
+    @objc func editDisplayNamePressed() {
+        let alert = UIAlertController(title: "UserName", message: nil, preferredStyle: .alert)
+        
+        
+        alert.addTextField { (textfield) in
+            textfield.placeholder = "Enter UserName"
         }
+        
+        guard let userNameField = alert.textFields else {return}
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler:{ (alert) -> Void in
+            
+            self.userNameLabel.text = userNameField[0].text ?? self.displayNameHolder
+            self.formValidation()
+            
+        }))
+        
+        present(alert, animated: true, completion: nil)
+        
     }
+  
+   private func formValidation() {
+       let validUserName = userNameLabel.text != displayNameHolder
+       let imagePresent = profileImage.image != defaultImage
+       saveButton.isEnabled = validUserName && imagePresent
+   }
+   
+      private func loadImage() {
+          guard let imageUrl = FirebaseAuthService.manager.currentUser?.photoURL else {
+              print("photo url not found")
+              return
+          }
+          ImageHelper.shared.getImage(urlStr: imageUrl.absoluteString) { (result) in
+              switch result {
+              case .failure(let error):
+                  print(error)
+              case .success(let imageFromUrl):
+                  DispatchQueue.main.async {
+                    self.imageSaved = imageFromUrl
+                  }
+                  
+              }
+          }
+      }
+      
+      private func setupCaptureSession() {
+          DispatchQueue.main.async {
+              let myPickerController = UIImagePickerController()
+              myPickerController.delegate = self
+              myPickerController.sourceType = .photoLibrary
+              myPickerController.allowsEditing = true
+              myPickerController.mediaTypes = ["public.image"]
+              self.present(myPickerController, animated: true, completion: nil)
+          }
+      }
+      
+      private func checkAuthorizationForAccessingPhotos() {
+          switch AVCaptureDevice.authorizationStatus(for: AVMediaType.video) {
+          case .authorized: // The user has previously granted access to the camera.
+              return setupCaptureSession()
+              
+          case .notDetermined: // The user has not yet been asked for camera access.
+              AVCaptureDevice.requestAccess(for: .video) { granted in
+                  if granted {
+                      self.setupCaptureSession()
+                  }
+              }
+              
+          case .denied: // The user has previously denied access.
+              return alertCameraAccessNeeded()
+              
+          case .restricted: // The user can't grant access due to restrictions.
+              return
+              
+          default:
+              return
+          }
+      }
+      
+      private func alertCameraAccessNeeded() {
+          let settingsAppURL = URL(string: UIApplication.openSettingsURLString)!
+          
+          let alert = UIAlertController(
+              title: "Need Camera Access",
+              message: "Camera access is required to make full use of this app.",
+              preferredStyle: UIAlertController.Style.alert
+          )
+          
+          alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+          alert.addAction(UIAlertAction(title: "Allow Camera", style: .cancel, handler: { (alert) -> Void in
+              UIApplication.shared.open(settingsAppURL, options: [:], completionHandler: nil)
+          }))
+          present(alert, animated: true, completion: nil)
+      }
     
-    
-    
-    private func presentPhotoPickerController() {
-         DispatchQueue.main.async{
-             let imagePickerViewController = UIImagePickerController()
-             imagePickerViewController.delegate = self
-             imagePickerViewController.sourceType = .photoLibrary
-             imagePickerViewController.allowsEditing = true
-             imagePickerViewController.mediaTypes = ["public.image"]
-             self.present(imagePickerViewController, animated: true, completion: nil)
-         }
-     }
+      
+        
+      
+      private func showErrorAlert(title: String, message: String) {
+          let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+          alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+          present(alertVC, animated: true, completion: nil)
+      }
 
     
-        @objc private func navigateScreen() {
-               self.navigationController?.pushViewController(FeedViewController(), animated: true)
-           }
+@objc private func navigateScreen() {
+self.navigationController?.pushViewController(FeedViewController(), animated: true)
+}
     
         
     
@@ -128,12 +210,7 @@ class ProfileViewController: UIViewController {
     
     
     private func setupHeaderLabel() {
-           view.addSubview(profileLabel)
-        view.addSubview(userNameTextField)
-        view.addSubview(saveButton)
-        
-           
-        profileLabel.translatesAutoresizingMaskIntoConstraints = false
+   profileLabel.translatesAutoresizingMaskIntoConstraints = false
            NSLayoutConstraint.activate([
                profileLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 30),
              profileLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
@@ -142,7 +219,6 @@ class ProfileViewController: UIViewController {
        }
        
     private func setImageConstraints() {
-         view.addSubview(profileImage)
          profileImage.translatesAutoresizingMaskIntoConstraints = false
          NSLayoutConstraint.activate([
              profileImage.centerXAnchor.constraint(equalTo: profileLabel.centerXAnchor),
@@ -152,9 +228,7 @@ class ProfileViewController: UIViewController {
      }
     
     private func setupAddImageButton() {
-        view.addSubview(addImageButton)
-        
-        addImageButton.translatesAutoresizingMaskIntoConstraints = false
+  addImageButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             addImageButton.topAnchor.constraint(equalTo: userNameTextField.bottomAnchor, constant: 500),
             addImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -164,8 +238,6 @@ class ProfileViewController: UIViewController {
     }
     
     private func SaveButtonconstrains() {
-        view.addSubview(saveButton)
-        
         saveButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
         saveButton.topAnchor.constraint(equalTo: userNameTextField.bottomAnchor, constant: 600),
@@ -174,15 +246,51 @@ class ProfileViewController: UIViewController {
                  saveButton.widthAnchor.constraint(equalToConstant: view.bounds.width / 3)
              ])
     }
+   private func setDisplayLabelConstraints() {
+     userNameLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+            userNameLabel.topAnchor.constraint(equalTo: self.profileImage.bottomAnchor, constant: 20),
+            userNameLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            userNameLabel.widthAnchor.constraint(equalToConstant: 200),
+            userNameLabel.heightAnchor.constraint(equalToConstant: 50)
+        ])
+
+
+    }
+    private func setEditDisplayButtonConstraints() {
+  editDisplayNameButton.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      editDisplayNameButton.topAnchor.constraint(equalTo: self.userNameLabel.bottomAnchor, constant: 10),
+       editDisplayNameButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+    editDisplayNameButton.widthAnchor.constraint(equalToConstant: 200),
+    editDisplayNameButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    func addSubviews() {
+        view.addSubview(profileLabel)
+        view.addSubview(profileImage)
+        view.addSubview(userNameTextField)
+        view.addSubview(userNameLabel)
+        view.addSubview(addImageButton)
+        view.addSubview(saveButton)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        addSubviews()
         setupHeaderLabel()
         setImageConstraints()
         setupAddImageButton()
         SaveButtonconstrains()
-        
+        setDisplayLabelConstraints()
+        setEditDisplayButtonConstraints()
+        if let displayName = FirebaseAuthService.manager.currentUser?.displayName {
+            loadImage()
+            userNameLabel.text = displayName
+            let user = FirebaseAuthService.manager.currentUser
+            imageURL = user?.photoURL
+        }
          navigationItem.rightBarButtonItem = UIBarButtonItem(title: "feed", style: .plain, target: self, action: #selector(continueButtonPressed))
         
 
@@ -198,7 +306,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             //MARK: TODO - handle couldn't get image :(
             return
         }
-        self.image = image
+        self.imageSaved = image
         
         guard let imageData = image.jpegData(compressionQuality: 0.8) else {
             //MARK: TODO - gracefully fail out without interrupting UX
