@@ -319,7 +319,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 //Note - defer UI response, update user image url in auth and in firestore when save is pressed
                 self?.imageURL = url
             case .failure(let error):
-                //MARK: TODO - defer image not save alert, try again later. maybe make VC "dirty" to allow user to move on in nav stack
+                //MARK: TODO - defer image not save alert
                 print(error)
             }
         })
